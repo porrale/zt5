@@ -12,7 +12,7 @@ int lcdRows = 4;
 
 int direccionLCD = 0x27;
 
-//Serial 
+//Serial
 int velocidadSerie = 115200;
 
 // Crear botones
