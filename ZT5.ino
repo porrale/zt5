@@ -71,7 +71,7 @@ void setup() {
 
 }
 
-
+  // probando github
    
 /**
    MAIN PROGRAM LOOP
@@ -86,7 +86,7 @@ void loop() {
   
 
  
-  // 
+
 //  if (PULSADOR_1.wasPressed()) {
 //    Serial.println(F("KB1-"));
 //    lcd.clear();
