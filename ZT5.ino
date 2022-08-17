@@ -1,3 +1,4 @@
+
 /**
 Firmware Medidor de impedancia biologica de frecuencia variable 
 */
@@ -5,6 +6,29 @@ Firmware Medidor de impedancia biologica de frecuencia variable
  
 #include "GFButton.h"
 #include <LiquidCrystal_I2C.h>
+#include <AD9850SPI.h>
+#include <SPI.h>
+
+// pines SPI
+#define VSPI_MOSI   23
+#define VSPI_MOSI   MOSI
+// pines generador DDS
+//const int W_CLK_PIN = 13;
+//const int FQ_UD_PIN = 8;
+//const int RESET_PIN = 9;
+
+const int W_CLK_PIN = 18;
+const int FQ_UD_PIN = 5;
+const int RESET_PIN = 1;
+
+// variables generador DDS
+double frecuencia = 1000;
+double trimFrecuencia = 124999500;
+int fase = 0;
+
+
+
+
 
 // LCD
 int lcdColumns = 20;
@@ -12,7 +36,7 @@ int lcdRows = 4;
 
 int direccionLCD = 0x27;
 
-//Serial
+//Serial 
 int velocidadSerie = 115200;
 
 // Crear botones
@@ -57,6 +81,14 @@ void setup() {
   // inicializar serial en 115200
   Serial.begin(velocidadSerie);
 
+  // Inicializo DDS
+  DDS.begin(W_CLK_PIN, FQ_UD_PIN, RESET_PIN);
+  DDS.calibrate(trimFrecuencia);
+  // inicializo SPI 
+  
+  SPI.begin();
+  SPI.setFrequency(1000);
+
 
   // initialize LCD
   //https://github.com/johnrickman/LiquidCrystal_I2C/blob/master/LiquidCrystal_I2C.h
@@ -71,22 +103,24 @@ void setup() {
 
 }
 
-  // probando github
+
    
 /**
-   MAIN PROGRAM LOOP
+   MAIN PROGRAM 
 */
 
 int opt=0; // variable opt opciones del menu
 
 void loop() {
  menu_LCD(opt);
+ // probando DDS a frecuencia fija
+// DDS.setfreq(frecuencia, fase);
   
  
   
 
  
-
+  // 
 //  if (PULSADOR_1.wasPressed()) {
 //    Serial.println(F("KB1-"));
 //    lcd.clear();
@@ -124,18 +158,28 @@ void iniciarGen(void)
  word cant=20;
  byte erores;
  word menu=1;
- datoamostrar = "*******probando*****";  
+ datoamostrar = "*******ZT*****";  
  lcd.setCursor(0, 0);
  lcd.print(datoamostrar);
  
  //LCD_printf_xy_4b(0, 0, datoamostrar);
 
- datoamostrar = "12345678901234567890";
-  
+ datoamostrar = "iniciando";
+ lcd.setCursor(0, 1);
+ lcd.print(datoamostrar); 
+ DDS.setfreq(frecuencia, fase); 
+ delay(1);
+ DDS.up();
+
+ 
  // IFsh1_GetBlockFlash(0xe020, datoamostrar, cant);
  //lcd.print4b(0, 1, datoamostrar);
  lcd.setCursor(0, 1);
  lcd.print(datoamostrar); 
+ datoamostrar = frecuencia;
+ lcd.setCursor(1, 1);
+ delay(1);
+ lcd.print(datoamostrar);
  while(menu==1)
   {
     //if(PULSADOR_2 == 0)
@@ -159,6 +203,7 @@ void iniciarGen(void)
 void prender_generador(bool state){
 
   GEN_STATE = state;
+  DDS.setfreq(frecuencia, fase);
 
 }
 
@@ -189,6 +234,8 @@ void actualizarLCD(void)
             //IFsh1_GetBlockFlash(0xe060, datoamostrar, cant);  //Muestra
             datoamostrar = "Muestra";
             Serial.println(F("Muestra"));
+            DDS.setfreq(frecuencia, fase);
+             Serial.println(F("generador encendido"));
             lcd.print(datoamostrar);
             break;
           case 3:
@@ -283,6 +330,7 @@ opt= teclapresionada();
                 {
                 lcd.setCursor(0,0);
                 lcd.print("MEDIR MUESTRA");  
+                
                 //prender_generador (0);
                 //demora_ms(100);
                 //sub_menu_medir(MUESTRA);
