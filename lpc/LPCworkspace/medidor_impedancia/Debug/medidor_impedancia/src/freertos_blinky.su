@@ -1,0 +1,5 @@
+../medidor_impedancia/src/freertos_blinky.c:49:13:prvSetupHardware	8	static
+../medidor_impedancia/src/freertos_blinky.c:59:13:vLEDTask1	24	static
+../medidor_impedancia/src/freertos_blinky.c:72:13:vLEDTask2	24	static
+../medidor_impedancia/src/freertos_blinky.c:85:13:vUARTTask	24	static
+../medidor_impedancia/src/freertos_blinky.c:105:5:main	24	static

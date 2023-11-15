@@ -1,0 +1,3 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<session version="1.0">&#x0A;<refactoring comment="Rename resource &apos;medidor_impedancia/example&apos; to &apos;medidor_impedancia&apos;" description="Rename resource &apos;example&apos;" flags="7" id="org.eclipse.ltk.core.refactoring.rename.resource" input="example" name="medidor_impedancia" stamp="1700088122963" updateReferences="true"/>&#x0A;<refactoring comment="Rename resource &apos;medidor_impedancia/medidor_impedancia/src/freertos_blinky.c&apos; to &apos;main.c&apos;" description="Rename resource &apos;freertos_blinky.c&apos;" flags="7" id="org.eclipse.ltk.core.refactoring.rename.resource" input="medidor_impedancia/src/freertos_blinky.c" name="main.c" stamp="1700088417326" updateReferences="true"/>
+</session>
